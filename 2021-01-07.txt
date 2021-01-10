@@ -1,0 +1,3 @@
+['Cleanser', 30.45]
+['Exfoliator', 95.0]
+['Serum', 78.8]
