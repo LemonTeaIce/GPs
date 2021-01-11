@@ -47,13 +47,14 @@ def process_start(s_sock):
     
       #insert data to list
       n.append([name,cost,qty,sum])
+      print("List n")
       print (n)
-      m =+ 1
 
     elif str(opt.decode('ascii')) == '99':
 
       s_sock.send(b"FINISH")
       print(type(n))
+      print (n)
       ans = s_sock.recv(2048).decode('utf-8')
       
       for list in range(len(n)):
@@ -77,100 +78,63 @@ def process_start(s_sock):
           print (fb1)
 
           if ans2 == "YES":
-            for i in range(len(n)): #utk cari nilai delete
+
+            tot2 =0
+            tot =0
+            for list in range(len(n)):
+              for value in range(len(n[list])):
+                qty1=n[list][2]
+                cost1=n[list][1]
+                tot1 = int(qty1)*float(cost1)
+                n[list][3] = tot1
+                if n[list][0] == ans1:
+                  print("list")
+                  print(list)
+                  print("ans1")
+                  print (ans1)
+                  print ("n[list][0]")
+                  print(n[list][0])
+                  qty2 = n[list][2]
+                  cost2=n[list][1]
+                  tot=int(qty2)*float(cost2)
+                  print(tot)
+                  y = list-1
+                  if list == 0:
+                    y = list
+                else :
+                  y =0
+              tot1 = n[list][3]
+              tot2 = tot2+tot1 #total bef delete
+            print("Delete list==>")
+            print(n[y])
+            del n[y][0]
+            del n[y][1]
+            del n[y][2]
+            del n[y][3]
+            print (n[y][3]) #cost delete
+            l = n[y][3]
+            tot1 = tot1+tot1
+            tots = tot2 - n[y][3]
+            global tott1
+            tott=0
+            for i in range(len(n)):
               for j in range (len(n[i])):
-                if n[i][0] == ans1:
-                  if i == 0:
-                    a=i
-                    a1 = n[i][3] # nilai yg akan ditolak
-                    del n[a]
-                    print ("delete first")
-                    print (n)
-                    tot= n[i][3]-a1
-                    n[i][3]=tot
-                    print(n)
-                  elif i == (len(n)):
-                    b=i
-                    b1 = n[i][3]
-                    del n[b]
-                    print("Delete last")
-                    print (n)
-                  else :
-                    c=i
-                    c1 = n[i][3]
-                    del n[c]
-                    print("Delete middle")
-                    print (n)
-                else:
-                  print("product dont exist")
-                tota = n[i][3]-a1
-                totc = n[i][3]-c1
-                totc1= n[i-1]-c1
-                n[i][3]= tota
-                n[i][3]=totc
-                n[i-1][3]=totc1
-            print  (n)
+                print(n[i][3])
+                tott1= n[i][3]
+              tott+=tott+tott1
+              print(tott1)
+            print (tot2)
+            print (tot)
+            print ("tot1b")
+            print (tot1)
+            print (n)
+            
             anss2 = s_sock.recv(2048).decode('utf-8')
+            print (anss2)
             s_sock.send(bytes(str(anss2),'ascii'))
             anss3 = s_sock.recv(2048).decode('utf-8')
+            print ("anss3")
             s_sock.send(bytes(str(n),'ascii'))
-
-#            for i in range(len(n)): #print lepas delete
- #             for j in range(len(n[i])):
-                
-   
-#            tot2 =0
- #           tot =0
-  #          for list in range(len(n)):
-   #           for value in range(len(n[list])):
-    #            qty1=n[list][2]
-     #           cost1=n[list][1]
-      #          tot1 = int(qty1)*float(cost1)
-        #        n[list][3] = tot1
-       #         print ("tot1")
-         #       print (tot1)
-          #      if name == ans1:
-           #       qty2 = n[list][2]
-            #      cost2=n[list][1]
-             #     tot=int(qty2)*float(cost2)
-#                  print ("tot")
- #                 print(tot)
-  #                y = list
-   #               y1 = value
-     #           else :
-    #              y =0
-       #       n1.append(n[list][3])
-      #        tot1 = n[list][3]
-        #      tot2 = tot2+tot1 #total bef delete
-         #   del n[y]
-        #    print (n[y][3]) #cost delete
-       #     tot1 = tot1+tot1
-      #      tots = tot2 - n[y][3]
-     #       global tott1
-          #  tott1=0
-#            for i in range(len(n)):
- #             for j in range (len(n[i])):
-  #              print(n[i][3])
-   #             tott1= n[i][3]*n[i+1][3]
-          #  s={}
-         #   print ([[key, sum(value)]for key, value in s.items()])
-
-    
-         #      tott1+=tott1
-          #     print(tott1)
-           # print (tot2)
-          #  print (n1)
-         #   print (tot)
-        #    print ("tot1b")
-       #     print (tot1)
-      #      print (n)
-            
-  #          anss2 = s_sock.recv(2048).decode('utf-8')
-   #         print (anss2)
-    #        s_sock.send(bytes(str(anss2),'ascii'))
-     #       anss3 = s_sock.recv(2048).decode('utf-8')
-      #      print ("anss3")
-       #     s_sock.send(bytes(str(n),'ascii'))
             
 
       #insert list to table
