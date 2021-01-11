@@ -1,3 +1,5 @@
+
+
 import socket
 import sys
 import os
@@ -16,6 +18,7 @@ sum = 0
 n = []
 n1 = []
 qty =0
+sum2 = 0
 
 def process_start(s_sock):
   global data,sum,co
@@ -25,12 +28,13 @@ def process_start(s_sock):
   num = s_sock.recv(2048).decode('utf-8')
   s_sock.send(str.encode(num))
 
-
+  n=[]
   while True:
    # name = s_sock.recv(2048)
    # s_sock.send(str.encode(name))
    # num = s_sock.recv(2048)
    # s_sock.send(str.encode(num))
+    
     opt = s_sock.recv(2048)
 
     if str(opt.decode('ascii')) in d.keys():
@@ -55,13 +59,21 @@ def process_start(s_sock):
       print (n)
       ans = s_sock.recv(2048).decode('utf-8')
       
-      for list in range(len(n)):
-        for value in range(len(n[list])):
-          name = n[list][0]
-          cost = n[list][1]
-          qty = n[list][2]
-          sum = n[list][3]
-        print (sum)
+      #sum2=0
+     # for list in range(len(n)):
+    #    for value in range(len(n[list])):
+   #       name = n[list][0]
+  #        cost = n[list][1]
+ #         qty = n[list][2]
+#          sum = n[list][1]*int(n[list][2])
+       # sum2 = sum2 +sum
+      #  n1.append([name,cost,qty,sum])
+     #   print("n1")
+    #    print (n1)
+   #     print ("Sum:")
+  #      print (sum)
+ #       print ("Sum2:")
+#        print (sum2)
 
       if ans == "YES":
         s_sock.send(bytes(str(n),'ascii'))
@@ -115,7 +127,33 @@ def process_start(s_sock):
             s_sock.send(bytes(str(n),'ascii'))
             anss4 = s_sock.recv(2048).decode('utf-8')
             s_sock.send(bytes(str(tott),'ascii'))
+      
+      else:
+        print("Client Dont delete anything..")
+        sum2=0
 
+        for list in range(len(n)):
+          for value in range(len(n[list])):
+            name = n[list][0]
+            cost = n[list][1]
+            qty = n[list][2]
+            sum = n[list][1]*int(n[list][2])
+          sum2 = sum2 +sum
+          n1.append([name,cost,qty,sum])
+          print (n1)
+          tott= sum2
+          print (sum2)
+        n = n1.copy()
+        print (n)
+
+        s_sock.send(bytes(str(ans),'ascii'))
+        print (ans)
+        ans44=s_sock.recv(2048).decode('utf-8')
+        print (ans44)
+        s_sock.send(bytes(str(sum2),'ascii'))
+        ans55 =s_sock.recv(2048).decode('utf-8')
+        print (ans55)
+        s_sock.send(bytes(str(n),'ascii'))
       #insert list to table
       x = (tabulate(n, headers=['Product Name','Price','Quantity','Amount(RM)'],tablefmt="grid",colalign=("center","center","center","center")))
       y = name1
