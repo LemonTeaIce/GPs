@@ -16,24 +16,21 @@ sum = 0
 n = []
 n1 = []
 qty =0
-sum2 = 0
-tott=0
 
 def process_start(s_sock):
-  global data,sum,tott
+  global data,sum,co
   s_sock.send(str.encode(data))
   name1 = s_sock.recv(2048).decode('utf-8')
   s_sock.send(str.encode(name1))
   num = s_sock.recv(2048).decode('utf-8')
   s_sock.send(str.encode(num))
 
-  n=[]
+
   while True:
    # name = s_sock.recv(2048)
    # s_sock.send(str.encode(name))
    # num = s_sock.recv(2048)
    # s_sock.send(str.encode(num))
-    
     opt = s_sock.recv(2048)
 
     if str(opt.decode('ascii')) in d.keys():
@@ -57,26 +54,17 @@ def process_start(s_sock):
       print(type(n))
       print (n)
       ans = s_sock.recv(2048).decode('utf-8')
-      print ("ans")
-      print (ans)
-      #sum2=0
-     # for list in range(len(n)):
-    #    for value in range(len(n[list])):
-   #       name = n[list][0]
-  #        cost = n[list][1]
- #         qty = n[list][2]
-#          sum = n[list][1]*int(n[list][2])
-       # sum2 = sum2 +sum
-      #  n1.append([name,cost,qty,sum])
-     #   print("n1")
-    #    print (n1)
-   #     print ("Sum:")
-  #      print (sum)
- #       print ("Sum2:")
-#        print (sum2)
+      
+      for list in range(len(n)):
+        for value in range(len(n[list])):
+          name = n[list][0]
+          cost = n[list][1]
+          qty = n[list][2]
+          sum = n[list][3]
+        print (sum)
 
       if ans == "YES":
-        s_sock.send(bytes(str(ans),'ascii'))
+        s_sock.send(bytes(str(n),'ascii'))
         ans1 = s_sock.recv(2048).decode('utf-8')
         fb1 = [item[0] for item in n]
         res = [ele for ele in fb1 if(ele in ans1)]
@@ -127,44 +115,16 @@ def process_start(s_sock):
             s_sock.send(bytes(str(n),'ascii'))
             anss4 = s_sock.recv(2048).decode('utf-8')
             s_sock.send(bytes(str(tott),'ascii'))
-      
-      else:
-        print("Client Dont delete anything..")
-        sum2=0
 
-        for list in range(len(n)):
-          for value in range(len(n[list])):
-            name = n[list][0]
-            cost = n[list][1]
-            qty = n[list][2]
-            sum = n[list][1]*int(n[list][2])
-          sum2 = sum2 +sum
-          n1.append([name,cost,qty,sum])
-          print (n1)
-          tott= sum2
-          print (sum2)
-        n = n1.copy()
-        print (n)
-
-        s_sock.send(bytes(str(ans),'ascii'))
-        print (ans)
-        ans44=s_sock.recv(2048).decode('utf-8')
-        print (ans44)
-        s_sock.send(bytes(str(sum2),'ascii'))
-        ans55 =s_sock.recv(2048).decode('utf-8')
-        print (ans55)
-        s_sock.send(bytes(str(n),'ascii'))
       #insert list to table
       x = (tabulate(n, headers=['Product Name','Price','Quantity','Amount(RM)'],tablefmt="grid",colalign=("center","center","center","center")))
       y = name1
       z = num
-      z1 = str(tott)
+      z1 = tott
       #write table into file
       receipt_file(x,y,z,z1)
 
       #send_file
-      send_file()
-
       print("Connection endend")
       break
 
@@ -187,27 +147,15 @@ def receipt_file(x,y,z,z1):
     f.write(y)
     f.write("\nNumber phone: ")
     f.write(z)
-    f.write('\nTotal Price(RM): ')
+    f.write('\nOrder Information\n\n')
+    f.write("\nTotal Price (RM): ")
     f.write(z1)
-    f.write("\nOrder Information\n\n")
     f.close()
 
   with open(filename, 'a') as f:
     f.write(x)
 
   f.close()
-
-def send_file():
-  date_time = datetime.date.today()
-  date_time_str = str(date_time)
-  extension = ".txt"
-  filename = date_time_str + extension
-  s_sock.send(filename.encode())
-
-  with open(filename,'rb') as f:
-    sendF = f.read(1024)
-    s_sock.sendall(sendF)
-    f.close()
 
 def delete_detail(n,y):
   print ("y")
